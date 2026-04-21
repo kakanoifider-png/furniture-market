@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Furniture Market</title>
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<header>
+<div class="logo">🛋️ Furniture Market</div>
+
+<div class="controls">
+<input id="search" placeholder="Поиск мебели..." oninput="render()">
+<button onclick="toggleAdmin()">Админ</button>
+<button onclick="openCart()">🛒</button>
+<button onclick="openFav()">❤️</button>
+</div>
+</header>
+
+<!-- ADMIN PANEL -->
+<div id="admin" class="panel">
+<h3>Добавить товар</h3>
+<input id="name" placeholder="Название">
+<input id="price" placeholder="Цена">
+<input id="img" placeholder="Фото URL">
+<button onclick="addProduct()">Добавить</button>
+</div>
+
+<!-- PRODUCTS -->
+<div id="products" class="grid"></div>
+
+<!-- CART -->
+<div id="cart" class="modal">
+<h2>Корзина</h2>
+<div id="cartItems"></div>
+<input id="address" placeholder="Адрес доставки">
+<button onclick="checkout()">Оформить заказ</button>
+<button onclick="closeModal('cart')">Закрыть</button>
+</div>
+
+<!-- FAVORITES -->
+<div id="fav" class="modal">
+<h2>Избранное</h2>
+<div id="favItems"></div>
+<button onclick="closeModal('fav')">Закрыть</button>
+</div>
+
+<!-- ORDERS -->
+<div id="orders" class="modal">
+<h2>Заказы</h2>
+<div id="orderList"></div>
+<button onclick="closeModal('orders')">Закрыть</button>
+</div>
+
+<div class="cartBtn" onclick="openCart()">🛒</div>
+
+<script src="app.js"></script>
+</body>
+</html>

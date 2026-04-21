@@ -1,0 +1,125 @@
+let products = JSON.parse(localStorage.getItem("products")) || [
+{name:"Диван",price:250000,img:"https://via.placeholder.com/300"},
+{name:"Стол",price:80000,img:"https://via.placeholder.com/300"},
+{name:"Шкаф",price:180000,img:"https://via.placeholder.com/300"}
+];
+
+let cart = [];
+let fav = [];
+let orders = [];
+let admin = false;
+
+/* SAVE */
+function save(){
+localStorage.setItem("products",JSON.stringify(products));
+localStorage.setItem("orders",JSON.stringify(orders));
+}
+
+/* RENDER */
+function render(){
+let search = document.getElementById("search").value?.toLowerCase()||"";
+let box = document.getElementById("products");
+
+box.innerHTML="";
+
+products
+.filter(p=>p.name.toLowerCase().includes(search))
+.forEach((p,i)=>{
+box.innerHTML+=`
+<div class="card">
+<img src="${p.img}">
+<h3>${p.name}</h3>
+<p>${p.price} ₸</p>
+<button onclick="addCart(${i})">В корзину</button>
+<button onclick="addFav(${i})">❤</button>
+</div>
+`;
+});
+save();
+}
+
+/* ADD PRODUCT */
+function addProduct(){
+products.push({
+name:name.value,
+price:price.value,
+img:img.value || "https://via.placeholder.com/300"
+});
+render();
+}
+
+/* ADMIN */
+function toggleAdmin(){
+admin=!admin;
+document.getElementById("admin").style.display = admin ? "block":"none";
+}
+
+/* CART */
+function addCart(i){
+cart.push(products[i]);
+alert("Добавлено");
+}
+
+function openCart(){
+document.getElementById("cart").style.display="block";
+let box=document.getElementById("cartItems");
+box.innerHTML="";
+cart.forEach(c=>{
+box.innerHTML+=`<div>${c.name} - ${c.price}</div>`;
+});
+}
+
+function checkout(){
+let address=document.getElementById("address").value;
+
+orders.push({
+items:[...cart],
+address:address,
+status:"в пути 🚚"
+});
+
+cart=[];
+alert("Заказ оформлен");
+
+openOrders();
+}
+
+/* FAVORITES */
+function addFav(i){
+fav.push(products[i]);
+alert("Добавлено в избранное");
+}
+
+function openFav(){
+document.getElementById("fav").style.display="block";
+let box=document.getElementById("favItems");
+box.innerHTML="";
+fav.forEach(f=>{
+box.innerHTML+=`<div>${f.name}</div>`;
+});
+}
+
+/* ORDERS */
+function openOrders(){
+document.getElementById("orders").style.display="block";
+let box=document.getElementById("orderList");
+box.innerHTML="";
+
+orders.forEach((o,i)=>{
+box.innerHTML+=`
+<div>
+<b>Заказ ${i+1}</b><br>
+${o.address}<br>
+Статус: ${o.status}
+<hr>
+</div>`;
+});
+}
+
+/* CLOSE */
+function closeModal(id){
+document.getElementById(id).style.display="none";
+}
+
+/* INIT */
+render();
